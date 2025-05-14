@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.saqaStudio.com.controller.GameController;
 import io.saqaStudio.com.model.Background;
 import io.saqaStudio.com.model.Enemy;
 import io.saqaStudio.com.model.Mario;
@@ -18,20 +19,25 @@ public class GameScreen implements Screen {
     private Mario mario;
     private Background background;
     private boolean isGameOver = false;
+    private GameController gameController;
 
     @Override
     public void show() {
         StaticValues.init();
         batch = new SpriteBatch();
         background = new Background(1, false);  // или 0 если это первый уровень
-        mario = new Mario(0, 480);
+        mario = new Mario(0, 60);
         mario.setBackground(background);
+        this.gameController=new GameController(mario, background);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        float scale = 2.0f;
+        Texture marioTex = mario.getImage();
 
         handleInput();
 
@@ -51,7 +57,10 @@ public class GameScreen implements Screen {
         }
         System.out.println("Mario: " + mario.getX() + ", " + mario.getY() + ", image = " + mario.getImage());
 
-        batch.draw(mario.getImage(), mario.getX(), mario.getY());
+        batch.draw(marioTex, mario.getX(), mario.getY(), marioTex.getWidth() * scale, marioTex.getHeight() * scale);
+
+        gameController.update();
+
         batch.end();
     }
 

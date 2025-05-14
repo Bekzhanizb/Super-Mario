@@ -28,6 +28,9 @@ public class Background {
             for (int i = 0; i < 16; i++) {
                 obstructions.add(new Enemy(i * 60, 0, 9));
             }
+            obstructions.add(new Enemy(-60, 0, 9));  // блок слева от экрана, чтобы не выходил за границу
+
+            obstructions.add(new Enemy(-60, 0, 0));
 
             // Платформы ниже
             obstructions.add(new Enemy(60, 180, 4));
@@ -36,7 +39,6 @@ public class Background {
             obstructions.add(new Enemy(360, 60, 0));
 
             // Враги ближе к игроку и чуть уменьшены по Y
-            enemies.add(new MoveEnemy(600, 60, true, 1, this));
             enemies.add(new MoveEnemy(450, 60, true, 2, 60, 180, this));
             enemies.add(new MoveEnemy(300, 60, true, 1, this));
         }
