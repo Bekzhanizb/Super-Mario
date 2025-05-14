@@ -6,45 +6,81 @@ public class Mario {
 
     private int x;
     private int y;
-    private int xmove = 0;
-    private int ymove = 0;
+    private int XMove = 0;
+    private int YMove = 0;
+    private final int spawnX;
+    private final int spawnY;
     private String status = "standing";
     private Texture image;
     private MoveStrategy strategy;
     private Background background;
 
-    public Mario(int x, int y) {
-        this.x = x;
-        this.y = y;
-        this.strategy = new MoveRight();
-        this.image = StaticValues.mariao[0]; // по умолчанию стоячая текстура
+    private boolean die = false;
+    private boolean isJumping = false;
+    private float velocityY = 0;
+    private final float GRAVITY = -0.5f;
+
+
+    public Mario(int spawnX, int spawnY) {
+        this.spawnX = spawnX;
+        this.spawnY = spawnY;
+        respawn();
+        this.strategy = null;
+        this.image = StaticValues.mariao[0]; // default standing texture
+    }
+
+    public void respawn() {
+        this.x = spawnX;
+        this.y = spawnY;
+        this.die = false;
+        this.XMove = 0;
+        this.YMove = 0;
+        this.image = StaticValues.mariao[0];
+        this.strategy = null;
     }
 
     public void executeMove() {
-        if (strategy != null)
+        if (strategy != null) {
             strategy.move(this);
+        }
+
+        if (isJumping) {
+            velocityY += GRAVITY;
+            y += (int) velocityY;
+
+            if (y <= 60) {
+                y = 60;
+                isJumping = false;
+                velocityY = 0;
+                image = StaticValues.mariao[0];
+            }
+        }
     }
 
     public void leftMove() {
         this.strategy = new MoveLeft();
-        this.x -= 5;
-        this.image = StaticValues.mariao[1];
+        this.XMove = -2;
+        this.image = StaticValues.mariao[1];  // Sprite movement to the left
+        this.x += XMove;
     }
 
     public void rightMove() {
         this.strategy = new MoveRight();
-        this.x += 5;
-        this.image = StaticValues.mariao[2];
+        this.XMove = 2;
+        this.image = StaticValues.mariao[2]; // Sprite movement to the right
+        this.x += XMove;
     }
 
     public void leftstop() {
         this.strategy = null;
-        this.image = StaticValues.mariao[0];
+        this.XMove = 0;
+        this.image = StaticValues.mariao[0];  // Standing
     }
 
     public void rightstop() {
         this.strategy = null;
-        this.image = StaticValues.mariao[0];
+        this.XMove = 0;
+        this.image = StaticValues.mariao[0];  // Standing
     }
 
     public void down() {
@@ -52,8 +88,18 @@ public class Mario {
     }
 
     public void jump() {
-        this.y += 10;
-        this.image = StaticValues.mariao[3];
+        if (!isJumping) {
+            isJumping = true;
+            velocityY = 10;  // начальная скорость прыжка вверх
+            image = StaticValues.mariao[3];  // спрайт прыжка
+        }
+    }
+
+    public void die() {
+        this.die = true;
+        this.XMove = 0;
+        this.YMove = 0;
+        this.image = StaticValues.die;  // Sprite of death
     }
 
     public Texture getImage() {
@@ -82,5 +128,21 @@ public class Mario {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Background getBackground() {
+        return background;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public boolean isDie() {
+        return die;
+    }
+
+    public void setDie(boolean die) {
+        this.die = die;
     }
 }

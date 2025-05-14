@@ -17,7 +17,7 @@ public class StaticValues {
     public static void init() {
         // Загрузка текстур (в идеале использовать AssetManager)
         for (int i = 0; i < 9; i++) {
-            mariao[i] = new Texture("assets/" + (i + 1) + ".gif");
+            mariao[i] = new Texture("assets/Mario/" + (i + 1) + ".gif");
         }
 
 
@@ -36,7 +36,7 @@ public class StaticValues {
             turtle[i] = new Texture("assets/Turtle" + (i + 1) + ".gif");
         }
         for (int i = 0; i < 12; i++) {
-            obstruction[i] = new Texture("assets/ob" + (i + 1) + ".gif");
+            obstruction[i] = new Texture("assets/objects/ob" + (i + 1) + ".gif");
         }
     }
 }
