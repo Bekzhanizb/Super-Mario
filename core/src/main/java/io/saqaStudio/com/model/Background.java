@@ -9,15 +9,13 @@ public class Background {
     private boolean isOver = false;
     private Texture backgroundImage;
     private int sort;
-    private boolean flag;
-    private List<Enemy> enemies = new ArrayList<>();
+    private final List<Enemy> enemies = new ArrayList<>();
     private List<Enemy> obstructions = new ArrayList<>();
     private List<Enemy> removedEnemies = new ArrayList<>();
     private Turtle turtle;
 
     public Background(int sort, boolean flag) {
         this.sort = sort;
-        this.flag = flag;
         this.backgroundImage = flag ? StaticValues.end : StaticValues.bgImage;
         initLevel(sort);
     }
@@ -32,13 +30,11 @@ public class Background {
 
             obstructions.add(new Enemy(-60, 0, 0));
 
-            // Платформы ниже
-            obstructions.add(new Enemy(60, 180, 4));
-            obstructions.add(new Enemy(180, 180, 0));
-            obstructions.add(new Enemy(240, 180, 4));
+            obstructions.add(new Enemy(60, 210, 4));
+            obstructions.add(new Enemy(180, 210, 0));
+            obstructions.add(new Enemy(240, 210, 4));
             obstructions.add(new Enemy(360, 60, 0));
 
-            // Враги ближе к игроку и чуть уменьшены по Y
             enemies.add(new MoveEnemy(450, 60, true, 2, 60, 180, this));
             enemies.add(new MoveEnemy(300, 60, true, 1, this));
         }

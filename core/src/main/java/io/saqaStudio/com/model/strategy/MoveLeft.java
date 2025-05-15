@@ -1,4 +1,6 @@
-package io.saqaStudio.com.model;
+package io.saqaStudio.com.model.strategy;
+
+import io.saqaStudio.com.model.Mario;
 
 public class MoveLeft implements MoveStrategy {
     @Override

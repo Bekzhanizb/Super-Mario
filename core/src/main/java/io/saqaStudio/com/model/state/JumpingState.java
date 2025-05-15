@@ -1,5 +1,7 @@
-package io.saqaStudio.com.model;
+package io.saqaStudio.com.model.state;
 
+
+import io.saqaStudio.com.model.Mario;
 
 public class JumpingState implements MarioState {
     @Override

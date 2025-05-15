@@ -1,6 +1,13 @@
 package io.saqaStudio.com.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import io.saqaStudio.com.model.observer.MarioStateObserver;
+import io.saqaStudio.com.model.strategy.MoveLeft;
+import io.saqaStudio.com.model.strategy.MoveRight;
+import io.saqaStudio.com.model.strategy.MoveStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Mario {
 
@@ -19,6 +26,8 @@ public class Mario {
     private boolean isJumping = false;
     private float velocityY = 0;
     private final float GRAVITY = -0.5f;
+
+    private final List<MarioStateObserver> observers = new ArrayList<>();
 
 
     public Mario(int spawnX, int spawnY) {
@@ -141,11 +150,33 @@ public class Mario {
         return status;
     }
 
+    public void setXMove(int XMove) {
+        this.XMove = XMove;
+    }
+
+    public void setYMove(int YMove) {
+        this.YMove = YMove;
+    }
+
     public boolean isDie() {
         return die;
     }
 
     public void setDie(boolean die) {
         this.die = die;
+        notifyObservers();
+    }
+
+    public void addObserver(MarioStateObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MarioStateObserver observer) {
+        observers.remove(observer);
+    }
+    private void notifyObservers() {
+        for (MarioStateObserver observer : observers) {
+            observer.onAliveChanged(isDie());
+        }
     }
 }
