@@ -29,6 +29,9 @@ public class GameScreen implements Screen {
         mario = new Mario(0, 60);
         mario.setBackground(background);
         this.gameController=new GameController(mario, background);
+
+        GameInputProcessor inputProcessor = new GameInputProcessor(gameController);
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     @Override
@@ -38,8 +41,6 @@ public class GameScreen implements Screen {
 
         float scale = 2.0f;
         Texture marioTex = mario.getImage();
-
-        handleInput();
 
         batch.begin();
         batch.draw(background.getBackgroundImage(), 0, 0);

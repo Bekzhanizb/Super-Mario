@@ -40,6 +40,11 @@ public class Mario {
     }
 
     public void executeMove() {
+        this.x += XMove;
+
+        if (x < 0) x = 0;
+        if (x > 840) x = 840;
+
         if (strategy != null) {
             strategy.move(this);
         }
@@ -61,14 +66,12 @@ public class Mario {
         this.strategy = new MoveLeft();
         this.XMove = -2;
         this.image = StaticValues.mariao[1];  // Sprite movement to the left
-        this.x += XMove;
     }
 
     public void rightMove() {
         this.strategy = new MoveRight();
         this.XMove = 2;
         this.image = StaticValues.mariao[2]; // Sprite movement to the right
-        this.x += XMove;
     }
 
     public void leftstop() {
@@ -90,8 +93,8 @@ public class Mario {
     public void jump() {
         if (!isJumping) {
             isJumping = true;
-            velocityY = 10;  // начальная скорость прыжка вверх
-            image = StaticValues.mariao[3];  // спрайт прыжка
+            velocityY = 10;
+            image = StaticValues.mariao[3];
         }
     }
 
